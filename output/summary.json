@@ -1,0 +1,31 @@
+{
+  "days": 30,
+  "rooms": 400,
+  "messages": 17911,
+  "messages_by_kind": {
+    "booking_assigned": 3488,
+    "check_in": 3403,
+    "check_out": 3083,
+    "cleaning_start": 3083,
+    "cleaning_end": 3083,
+    "device_fault": 767,
+    "device_restored": 766,
+    "no_show": 85,
+    "room_blocked": 69,
+    "room_released": 68,
+    "hotel_net_down": 8,
+    "hotel_net_up": 8
+  },
+  "night_occupancy": 0.7908,
+  "all_day_occupied_share": 0.6987,
+  "device_faults": 767,
+  "faults_per_100_rooms_per_day": 6.39,
+  "gate": {
+    "one_month_generated": true,
+    "illegal_transitions": 0,
+    "twin_physical_checks": 287600,
+    "twin_physical_mismatches": 0,
+    "passed": true
+  },
+  "messages_sha256_16": "4f7dae48a3c619f0"
+}

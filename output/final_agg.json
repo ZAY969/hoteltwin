@@ -1,0 +1,1554 @@
+{
+ "agg": {
+  "auto_off|P": {
+   "runs": 3,
+   "n": [
+    371.333,
+    22.301
+   ],
+   "detect": [
+    71.473,
+    21.361
+   ],
+   "detect_p90": [
+    59.001,
+    12.375
+   ],
+   "duration": [
+    133.411,
+    21.174
+   ],
+   "guest_hours_per_100rd": [
+    6.795,
+    0.727
+   ],
+   "labor_h_per_100rd": [
+    20.661,
+    0.678
+   ],
+   "onsite_h_per_100rd": [
+    8.661,
+    0.678
+   ],
+   "p1_within_5": [
+    0.999,
+    0.002
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.041,
+    0.001
+   ],
+   "auto_share": [
+    0.044,
+    0.012
+   ],
+   "false_alarms_per_day": [
+    0.19,
+    0.206
+   ],
+   "checkin_wait": [
+    0.068,
+    0.011
+   ],
+   "response": [
+    0.015,
+    0.014
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.058
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.817,
+    0.009
+   ]
+  },
+  "base|P": {
+   "runs": 5,
+   "n": [
+    365.0,
+    20.579
+   ],
+   "detect": [
+    61.149,
+    33.251
+   ],
+   "detect_p90": [
+    61.181,
+    18.24
+   ],
+   "duration": [
+    107.877,
+    35.274
+   ],
+   "guest_hours_per_100rd": [
+    5.882,
+    0.683
+   ],
+   "labor_h_per_100rd": [
+    18.741,
+    0.543
+   ],
+   "onsite_h_per_100rd": [
+    6.741,
+    0.543
+   ],
+   "p1_within_5": [
+    1.0,
+    0.0
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.028,
+    0.001
+   ],
+   "auto_share": [
+    0.268,
+    0.024
+   ],
+   "false_alarms_per_day": [
+    0.129,
+    0.106
+   ],
+   "checkin_wait": [
+    0.087,
+    0.023
+   ],
+   "response": [
+    0.005,
+    0.006
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.2,
+    0.245
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.812,
+    0.011
+   ]
+  },
+  "base|T": {
+   "runs": 5,
+   "n": [
+    365.0,
+    22.102
+   ],
+   "detect": [
+    133.931,
+    7.072
+   ],
+   "detect_p90": [
+    343.266,
+    20.6
+   ],
+   "duration": [
+    207.747,
+    8.736
+   ],
+   "guest_hours_per_100rd": [
+    11.792,
+    0.585
+   ],
+   "labor_h_per_100rd": [
+    80.0,
+    0.0
+   ],
+   "onsite_h_per_100rd": null,
+   "p1_within_5": null,
+   "p1_wait_p95": null,
+   "hwait_p95": null,
+   "util_full": null,
+   "auto_share": null,
+   "false_alarms_per_day": null,
+   "checkin_wait": [
+    0.432,
+    0.077
+   ],
+   "response": [
+    0.62,
+    0.18
+   ],
+   "rmse_t": null,
+   "rmse_p": null,
+   "energy_err": null,
+   "occ_end": null
+  },
+  "c1_k1|P": {
+   "runs": 3,
+   "n": [
+    371.667,
+    16.073
+   ],
+   "detect": [
+    62.691,
+    9.31
+   ],
+   "detect_p90": [
+    74.146,
+    9.019
+   ],
+   "duration": [
+    110.077,
+    7.267
+   ],
+   "guest_hours_per_100rd": [
+    6.003,
+    0.38
+   ],
+   "labor_h_per_100rd": [
+    13.006,
+    0.305
+   ],
+   "onsite_h_per_100rd": [
+    7.006,
+    0.305
+   ],
+   "p1_within_5": [
+    0.99,
+    0.013
+   ],
+   "p1_wait_p95": [
+    0.603,
+    1.044
+   ],
+   "hwait_p95": [
+    0.739,
+    1.199
+   ],
+   "util_full": [
+    0.058,
+    0.008
+   ],
+   "auto_share": [
+    0.267,
+    0.012
+   ],
+   "false_alarms_per_day": [
+    0.19,
+    0.041
+   ],
+   "checkin_wait": [
+    0.089,
+    0.014
+   ],
+   "response": [
+    0.213,
+    0.088
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.153
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.808,
+    0.023
+   ]
+  },
+  "c1_k2|P": {
+   "runs": 3,
+   "n": [
+    742.333,
+    15.631
+   ],
+   "detect": [
+    74.563,
+    15.885
+   ],
+   "detect_p90": [
+    72.228,
+    15.597
+   ],
+   "duration": [
+    122.805,
+    13.468
+   ],
+   "guest_hours_per_100rd": [
+    12.781,
+    0.611
+   ],
+   "labor_h_per_100rd": [
+    18.438,
+    0.53
+   ],
+   "onsite_h_per_100rd": [
+    12.438,
+    0.53
+   ],
+   "p1_within_5": [
+    0.961,
+    0.009
+   ],
+   "p1_wait_p95": [
+    3.613,
+    1.036
+   ],
+   "hwait_p95": [
+    4.632,
+    1.417
+   ],
+   "util_full": [
+    0.109,
+    0.004
+   ],
+   "auto_share": [
+    0.299,
+    0.013
+   ],
+   "false_alarms_per_day": [
+    0.333,
+    0.109
+   ],
+   "checkin_wait": [
+    0.165,
+    0.009
+   ],
+   "response": [
+    18.786,
+    12.801
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.267,
+    0.153
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.824,
+    0.026
+   ]
+  },
+  "c1_k3|P": {
+   "runs": 3,
+   "n": [
+    1104.0,
+    22.605
+   ],
+   "detect": [
+    65.199,
+    12.02
+   ],
+   "detect_p90": [
+    66.924,
+    6.455
+   ],
+   "duration": [
+    112.148,
+    9.756
+   ],
+   "guest_hours_per_100rd": [
+    18.274,
+    1.08
+   ],
+   "labor_h_per_100rd": [
+    23.36,
+    0.912
+   ],
+   "onsite_h_per_100rd": [
+    17.36,
+    0.912
+   ],
+   "p1_within_5": [
+    0.96,
+    0.008
+   ],
+   "p1_wait_p95": [
+    4.12,
+    0.727
+   ],
+   "hwait_p95": [
+    4.367,
+    0.622
+   ],
+   "util_full": [
+    0.16,
+    0.006
+   ],
+   "auto_share": [
+    0.31,
+    0.003
+   ],
+   "false_alarms_per_day": [
+    0.381,
+    0.165
+   ],
+   "checkin_wait": [
+    0.288,
+    0.026
+   ],
+   "response": [
+    0.609,
+    0.084
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.252
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.787,
+    0.013
+   ]
+  },
+  "c1_k4|P": {
+   "runs": 3,
+   "n": [
+    1487.667,
+    33.081
+   ],
+   "detect": [
+    65.59,
+    15.068
+   ],
+   "detect_p90": [
+    68.478,
+    2.249
+   ],
+   "duration": [
+    113.086,
+    13.997
+   ],
+   "guest_hours_per_100rd": [
+    24.513,
+    2.116
+   ],
+   "labor_h_per_100rd": [
+    28.902,
+    1.309
+   ],
+   "onsite_h_per_100rd": [
+    22.902,
+    1.309
+   ],
+   "p1_within_5": [
+    0.932,
+    0.01
+   ],
+   "p1_wait_p95": [
+    6.38,
+    0.698
+   ],
+   "hwait_p95": [
+    6.879,
+    0.51
+   ],
+   "util_full": [
+    0.21,
+    0.004
+   ],
+   "auto_share": [
+    0.324,
+    0.013
+   ],
+   "false_alarms_per_day": [
+    0.286,
+    0.143
+   ],
+   "checkin_wait": [
+    0.428,
+    0.024
+   ],
+   "response": [
+    18.344,
+    19.73
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.333,
+    0.252
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.819,
+    0.012
+   ]
+  },
+  "c1_k6|P": {
+   "runs": 3,
+   "n": [
+    2168.667,
+    13.317
+   ],
+   "detect": [
+    65.965,
+    7.89
+   ],
+   "detect_p90": [
+    64.328,
+    4.097
+   ],
+   "duration": [
+    115.425,
+    8.859
+   ],
+   "guest_hours_per_100rd": [
+    37.961,
+    1.133
+   ],
+   "labor_h_per_100rd": [
+    39.514,
+    1.145
+   ],
+   "onsite_h_per_100rd": [
+    33.514,
+    1.145
+   ],
+   "p1_within_5": [
+    0.872,
+    0.016
+   ],
+   "p1_wait_p95": [
+    9.488,
+    1.699
+   ],
+   "hwait_p95": [
+    10.548,
+    1.614
+   ],
+   "util_full": [
+    0.312,
+    0.005
+   ],
+   "auto_share": [
+    0.316,
+    0.01
+   ],
+   "false_alarms_per_day": [
+    0.905,
+    0.23
+   ],
+   "checkin_wait": [
+    0.644,
+    0.076
+   ],
+   "response": [
+    35.661,
+    18.553
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.3,
+    0.2
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.823,
+    0.017
+   ]
+  },
+  "c1_k8|P": {
+   "runs": 3,
+   "n": [
+    2808.333,
+    9.018
+   ],
+   "detect": [
+    60.657,
+    11.706
+   ],
+   "detect_p90": [
+    64.266,
+    8.041
+   ],
+   "duration": [
+    110.406,
+    12.029
+   ],
+   "guest_hours_per_100rd": [
+    54.165,
+    6.616
+   ],
+   "labor_h_per_100rd": [
+    49.462,
+    0.244
+   ],
+   "onsite_h_per_100rd": [
+    43.462,
+    0.244
+   ],
+   "p1_within_5": [
+    0.848,
+    0.005
+   ],
+   "p1_wait_p95": [
+    9.914,
+    0.65
+   ],
+   "hwait_p95": [
+    12.68,
+    1.049
+   ],
+   "util_full": [
+    0.397,
+    0.01
+   ],
+   "auto_share": [
+    0.33,
+    0.002
+   ],
+   "false_alarms_per_day": [
+    1.095,
+    0.18
+   ],
+   "checkin_wait": [
+    0.922,
+    0.073
+   ],
+   "response": [
+    28.099,
+    18.366
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.333,
+    0.058
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.81,
+    0.026
+   ]
+  },
+  "c2_k12|P": {
+   "runs": 3,
+   "n": [
+    4382.333,
+    93.458
+   ],
+   "detect": [
+    61.341,
+    3.701
+   ],
+   "detect_p90": [
+    65.476,
+    0.689
+   ],
+   "duration": [
+    109.459,
+    4.447
+   ],
+   "guest_hours_per_100rd": [
+    76.057,
+    3.785
+   ],
+   "labor_h_per_100rd": [
+    76.789,
+    2.633
+   ],
+   "onsite_h_per_100rd": [
+    64.789,
+    2.633
+   ],
+   "p1_within_5": [
+    0.979,
+    0.005
+   ],
+   "p1_wait_p95": [
+    3.069,
+    0.229
+   ],
+   "hwait_p95": [
+    3.602,
+    0.074
+   ],
+   "util_full": [
+    0.307,
+    0.015
+   ],
+   "auto_share": [
+    0.323,
+    0.005
+   ],
+   "false_alarms_per_day": [
+    1.119,
+    0.18
+   ],
+   "checkin_wait": [
+    1.05,
+    0.137
+   ],
+   "response": [
+    1.998,
+    2.612
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.153
+   ],
+   "energy_err": [
+    -0.002,
+    0.0
+   ],
+   "occ_end": [
+    0.804,
+    0.024
+   ]
+  },
+  "c2_k16|P": {
+   "runs": 3,
+   "n": [
+    5787.667,
+    81.697
+   ],
+   "detect": [
+    65.001,
+    1.346
+   ],
+   "detect_p90": [
+    63.87,
+    1.382
+   ],
+   "duration": [
+    113.113,
+    1.829
+   ],
+   "guest_hours_per_100rd": [
+    101.828,
+    9.642
+   ],
+   "labor_h_per_100rd": [
+    96.781,
+    3.455
+   ],
+   "onsite_h_per_100rd": [
+    84.781,
+    3.455
+   ],
+   "p1_within_5": [
+    0.963,
+    0.007
+   ],
+   "p1_wait_p95": [
+    4.288,
+    0.324
+   ],
+   "hwait_p95": [
+    4.988,
+    0.479
+   ],
+   "util_full": [
+    0.402,
+    0.015
+   ],
+   "auto_share": [
+    0.33,
+    0.001
+   ],
+   "false_alarms_per_day": [
+    1.881,
+    0.149
+   ],
+   "checkin_wait": [
+    1.485,
+    0.067
+   ],
+   "response": [
+    3.974,
+    3.204
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.115
+   ],
+   "energy_err": [
+    -0.002,
+    0.0
+   ],
+   "occ_end": [
+    0.817,
+    0.014
+   ]
+  },
+  "c2_k4|P": {
+   "runs": 3,
+   "n": [
+    1427.667,
+    48.087
+   ],
+   "detect": [
+    62.878,
+    0.77
+   ],
+   "detect_p90": [
+    71.191,
+    8.449
+   ],
+   "duration": [
+    112.044,
+    0.515
+   ],
+   "guest_hours_per_100rd": [
+    24.364,
+    1.399
+   ],
+   "labor_h_per_100rd": [
+    34.757,
+    0.917
+   ],
+   "onsite_h_per_100rd": [
+    22.757,
+    0.917
+   ],
+   "p1_within_5": [
+    0.999,
+    0.001
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.103,
+    0.002
+   ],
+   "auto_share": [
+    0.319,
+    0.012
+   ],
+   "false_alarms_per_day": [
+    0.595,
+    0.109
+   ],
+   "checkin_wait": [
+    0.358,
+    0.041
+   ],
+   "response": [
+    0.034,
+    0.017
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.252
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.809,
+    0.009
+   ]
+  },
+  "c2_k8|P": {
+   "runs": 3,
+   "n": [
+    2859.667,
+    75.831
+   ],
+   "detect": [
+    61.158,
+    3.98
+   ],
+   "detect_p90": [
+    65.218,
+    4.757
+   ],
+   "duration": [
+    109.0,
+    4.904
+   ],
+   "guest_hours_per_100rd": [
+    49.295,
+    2.171
+   ],
+   "labor_h_per_100rd": [
+    54.701,
+    1.379
+   ],
+   "onsite_h_per_100rd": [
+    42.701,
+    1.379
+   ],
+   "p1_within_5": [
+    0.993,
+    0.001
+   ],
+   "p1_wait_p95": [
+    1.072,
+    0.666
+   ],
+   "hwait_p95": [
+    1.644,
+    0.483
+   ],
+   "util_full": [
+    0.206,
+    0.005
+   ],
+   "auto_share": [
+    0.319,
+    0.004
+   ],
+   "false_alarms_per_day": [
+    1.024,
+    0.206
+   ],
+   "checkin_wait": [
+    0.745,
+    0.064
+   ],
+   "response": [
+    0.965,
+    1.198
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.367,
+    0.153
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.827,
+    0.012
+   ]
+  },
+  "fault_x0.5|P": {
+   "runs": 3,
+   "n": [
+    187.333,
+    11.015
+   ],
+   "detect": [
+    94.48,
+    31.036
+   ],
+   "detect_p90": [
+    87.785,
+    35.343
+   ],
+   "duration": [
+    142.915,
+    25.806
+   ],
+   "guest_hours_per_100rd": [
+    3.067,
+    0.034
+   ],
+   "labor_h_per_100rd": [
+    16.447,
+    0.28
+   ],
+   "onsite_h_per_100rd": [
+    4.447,
+    0.28
+   ],
+   "p1_within_5": [
+    1.0,
+    0.0
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.017,
+    0.002
+   ],
+   "auto_share": [
+    0.233,
+    0.018
+   ],
+   "false_alarms_per_day": [
+    0.119,
+    0.082
+   ],
+   "checkin_wait": [
+    0.078,
+    0.014
+   ],
+   "response": [
+    0.0,
+    0.0
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.233,
+    0.153
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.823,
+    0.032
+   ]
+  },
+  "fault_x0.5|T": {
+   "runs": 3,
+   "n": [
+    188.0,
+    13.077
+   ],
+   "detect": [
+    129.684,
+    13.034
+   ],
+   "detect_p90": [
+    350.098,
+    71.041
+   ],
+   "duration": [
+    201.021,
+    3.716
+   ],
+   "guest_hours_per_100rd": [
+    6.249,
+    0.557
+   ],
+   "labor_h_per_100rd": [
+    80.0,
+    0.0
+   ],
+   "onsite_h_per_100rd": null,
+   "p1_within_5": null,
+   "p1_wait_p95": null,
+   "hwait_p95": null,
+   "util_full": null,
+   "auto_share": null,
+   "false_alarms_per_day": null,
+   "checkin_wait": [
+    0.344,
+    0.06
+   ],
+   "response": [
+    0.374,
+    0.088
+   ],
+   "rmse_t": null,
+   "rmse_p": null,
+   "energy_err": null,
+   "occ_end": null
+  },
+  "fault_x2|P": {
+   "runs": 3,
+   "n": [
+    722.667,
+    19.858
+   ],
+   "detect": [
+    64.124,
+    17.305
+   ],
+   "detect_p90": [
+    65.68,
+    8.964
+   ],
+   "duration": [
+    111.257,
+    17.442
+   ],
+   "guest_hours_per_100rd": [
+    11.556,
+    0.113
+   ],
+   "labor_h_per_100rd": [
+    23.99,
+    0.187
+   ],
+   "onsite_h_per_100rd": [
+    11.99,
+    0.187
+   ],
+   "p1_within_5": [
+    1.0,
+    0.0
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.051,
+    0.003
+   ],
+   "auto_share": [
+    0.278,
+    0.015
+   ],
+   "false_alarms_per_day": [
+    0.119,
+    0.149
+   ],
+   "checkin_wait": [
+    0.091,
+    0.023
+   ],
+   "response": [
+    0.006,
+    0.005
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.167,
+    0.058
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.816,
+    0.014
+   ]
+  },
+  "fault_x2|T": {
+   "runs": 3,
+   "n": [
+    728.667,
+    4.726
+   ],
+   "detect": [
+    134.161,
+    11.243
+   ],
+   "detect_p90": [
+    342.041,
+    33.981
+   ],
+   "duration": [
+    206.935,
+    11.238
+   ],
+   "guest_hours_per_100rd": [
+    23.316,
+    0.182
+   ],
+   "labor_h_per_100rd": [
+    80.0,
+    0.0
+   ],
+   "onsite_h_per_100rd": null,
+   "p1_within_5": null,
+   "p1_wait_p95": null,
+   "hwait_p95": null,
+   "util_full": null,
+   "auto_share": null,
+   "false_alarms_per_day": null,
+   "checkin_wait": [
+    0.702,
+    0.118
+   ],
+   "response": [
+    1.15,
+    0.26
+   ],
+   "rmse_t": null,
+   "rmse_p": null,
+   "energy_err": null,
+   "occ_end": null
+  },
+  "handle_10min|P": {
+   "runs": 3,
+   "n": [
+    377.0,
+    5.292
+   ],
+   "detect": [
+    71.65,
+    3.18
+   ],
+   "detect_p90": [
+    63.651,
+    16.368
+   ],
+   "duration": [
+    121.994,
+    3.192
+   ],
+   "guest_hours_per_100rd": [
+    6.468,
+    0.269
+   ],
+   "labor_h_per_100rd": [
+    19.335,
+    0.094
+   ],
+   "onsite_h_per_100rd": [
+    7.335,
+    0.094
+   ],
+   "p1_within_5": [
+    0.996,
+    0.004
+   ],
+   "p1_wait_p95": [
+    0.0,
+    0.0
+   ],
+   "hwait_p95": [
+    0.0,
+    0.0
+   ],
+   "util_full": [
+    0.057,
+    0.005
+   ],
+   "auto_share": [
+    0.266,
+    0.007
+   ],
+   "false_alarms_per_day": [
+    0.31,
+    0.206
+   ],
+   "checkin_wait": [
+    0.147,
+    0.009
+   ],
+   "response": [
+    0.03,
+    0.012
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.2,
+    0.265
+   ],
+   "energy_err": [
+    -0.0,
+    0.0
+   ],
+   "occ_end": [
+    0.811,
+    0.021
+   ]
+  },
+  "notice_x0.5|T": {
+   "runs": 3,
+   "n": [
+    370.0,
+    6.245
+   ],
+   "detect": [
+    118.728,
+    9.47
+   ],
+   "detect_p90": [
+    323.426,
+    16.914
+   ],
+   "duration": [
+    190.693,
+    8.283
+   ],
+   "guest_hours_per_100rd": [
+    10.031,
+    0.184
+   ],
+   "labor_h_per_100rd": [
+    80.0,
+    0.0
+   ],
+   "onsite_h_per_100rd": null,
+   "p1_within_5": null,
+   "p1_wait_p95": null,
+   "hwait_p95": null,
+   "util_full": null,
+   "auto_share": null,
+   "false_alarms_per_day": null,
+   "checkin_wait": [
+    0.479,
+    0.071
+   ],
+   "response": [
+    0.478,
+    0.126
+   ],
+   "rmse_t": null,
+   "rmse_p": null,
+   "energy_err": null,
+   "occ_end": null
+  },
+  "worst|P": {
+   "runs": 3,
+   "n": [
+    738.667,
+    5.508
+   ],
+   "detect": [
+    71.015,
+    26.988
+   ],
+   "detect_p90": [
+    68.834,
+    9.622
+   ],
+   "duration": [
+    137.8,
+    27.087
+   ],
+   "guest_hours_per_100rd": [
+    15.392,
+    0.85
+   ],
+   "labor_h_per_100rd": [
+    28.111,
+    0.244
+   ],
+   "onsite_h_per_100rd": [
+    16.111,
+    0.244
+   ],
+   "p1_within_5": [
+    0.987,
+    0.014
+   ],
+   "p1_wait_p95": [
+    0.386,
+    0.669
+   ],
+   "hwait_p95": [
+    0.485,
+    0.84
+   ],
+   "util_full": [
+    0.156,
+    0.002
+   ],
+   "auto_share": [
+    0.026,
+    0.004
+   ],
+   "false_alarms_per_day": [
+    0.214,
+    0.143
+   ],
+   "checkin_wait": [
+    0.145,
+    0.024
+   ],
+   "response": [
+    0.213,
+    0.107
+   ],
+   "rmse_t": [
+    0.2,
+    0.01
+   ],
+   "rmse_p": [
+    3.333,
+    0.208
+   ],
+   "energy_err": [
+    -0.001,
+    0.0
+   ],
+   "occ_end": [
+    0.818,
+    0.018
+   ]
+  },
+  "worst|T": {
+   "runs": 3,
+   "n": [
+    703.0,
+    34.598
+   ],
+   "detect": [
+    134.661,
+    11.557
+   ],
+   "detect_p90": [
+    364.472,
+    33.958
+   ],
+   "duration": [
+    205.575,
+    10.984
+   ],
+   "guest_hours_per_100rd": [
+    18.903,
+    1.919
+   ],
+   "labor_h_per_100rd": [
+    80.0,
+    0.0
+   ],
+   "onsite_h_per_100rd": null,
+   "p1_within_5": null,
+   "p1_wait_p95": null,
+   "hwait_p95": null,
+   "util_full": null,
+   "auto_share": null,
+   "false_alarms_per_day": null,
+   "checkin_wait": [
+    0.753,
+    0.119
+   ],
+   "response": [
+    0.909,
+    0.208
+   ],
+   "rmse_t": null,
+   "rmse_p": null,
+   "energy_err": null,
+   "occ_end": null
+  }
+ },
+ "det": {
+  "network": {
+   "faults": 240,
+   "detected": 240,
+   "mean": 12.5,
+   "median": 12.6,
+   "p90": 14.6,
+   "max": 15.0,
+   "false": 0
+  },
+  "power": {
+   "faults": 534,
+   "detected": 534,
+   "mean": 2.6,
+   "median": 2.6,
+   "p90": 4.5,
+   "max": 5.0,
+   "false": 0
+  },
+  "other": {
+   "faults": 91,
+   "detected": 91,
+   "mean": 2.9,
+   "median": 2.9,
+   "p90": 4.5,
+   "max": 5.0,
+   "false": 0
+  },
+  "hvac": {
+   "faults": 240,
+   "detected": 238,
+   "mean": 392.1,
+   "median": 129.5,
+   "p90": 958.5,
+   "max": 6633.5,
+   "false": 8
+  },
+  "plumbing": {
+   "faults": 341,
+   "detected": 341,
+   "mean": 27.5,
+   "median": 27.5,
+   "p90": 29.5,
+   "max": 30.0,
+   "false": 1
+  },
+  "lock": {
+   "faults": 256,
+   "detected": 256,
+   "mean": 2.7,
+   "median": 2.8,
+   "p90": 4.6,
+   "max": 5.0,
+   "false": 0
+  }
+ }
+}
