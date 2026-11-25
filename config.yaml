@@ -1,26 +1,26 @@
 # 虚拟无人酒店集群参数(阶段 1)
-# 标注 [文献] 的参数有出处;标注 [占位] 的参数是暂定值,阶段 3 冻结前需要替换或改为扫描区间。
+# 标注 [文献]/[数据] 的参数有出处;标注 [设定] 的参数没有公开出处,是本文的设定值,其影响由论文的敏感性分析检验。
 
 seed: 20261125          # 随机种子,保证结果可重复
 days: 30                # 仿真天数
 snapshot_minutes: 60    # 孪生状态快照间隔(分钟)
 
 cluster:
-  n_hotels: 10          # 酒店数量 [占位]
-  rooms_per_hotel: 40   # 每店客房数 [占位]
+  n_hotels: 10          # 酒店数量 [设定]
+  rooms_per_hotel: 40   # 每店客房数 [设定]
 
 demand:
   booking_prob: 0.61        # 校准到夜间入住率约 81% [文献: 华住 2025 年三、四季度入住率 84.1% / 78.4%]
   los_pmf: [0.200, 0.239, 0.259, 0.168, 0.070, 0.024, 0.027, 0.013]   # 住宿 1..8 晚的经验分布,均值 2.94 晚 [数据: Antonio 等 2019,城市酒店已离店订单]
   guests_pmf: [0.222, 0.649, 0.129]   # 每间 1/2/3 人 [数据: 同上]
-  no_show_prob: 0.019        # 预订后未到店的概率 [占位]
-  los_mean_nights: 1.8      # 平均住宿晚数 [占位,可改用 Antonio 等 2019 数据集抽样]
+  no_show_prob: 0.019        # 预订后未到店的概率 [数据: Antonio 等 2019]
+  los_mean_nights: 1.8      # 仅在未给出 los_pmf 时使用
   los_max_nights: 7
-  checkin_hour: [12.0, 15.0, 23.5]   # 到店钟点的三角分布(最早, 高峰, 最晚) [占位,行业经验]
-  checkout_hour: [6.5, 11.0, 12.0]   # 退房钟点的三角分布 [占位,行业经验]
+  checkin_hour: [12.0, 15.0, 23.5]   # 到店钟点的三角分布(最早, 高峰, 最晚) [设定,行业经验]
+  checkout_hour: [6.5, 11.0, 12.0]   # 退房钟点的三角分布 [设定,行业经验]
 
 cleaning:
-  start_delay_mean_min: 60   # 退房到开始清洁的平均等待(对数正态) [占位]
+  start_delay_mean_min: 60   # 退房到开始清洁的平均等待(对数正态) [设定]
   start_delay_sigma: 0.6
   duration_mean_min: 20.4    # 退房清洁时长均值 [文献: Aguilar-Escobar 等 2021,退房房 20.35 分钟]
   duration_sd_min: 5.0       # [文献: 同上,总体标准差 5.02 分钟]
@@ -28,7 +28,7 @@ cleaning:
 faults:
   # 客房相关维修事件:23.6 单/间/年 = 0.0647 单/间/天 [文献: Lai & Yik 2012, IJHM 31(1)]
   rate_per_room_day: 0.0647
-  # 各设备类别占比 [占位:原文表 1 有工种比例,读取后替换]
+  # 各设备类别占比 [设定:原文表 1 有工种比例,读取后替换]
   device_shares:
     lock: 0.15
     power: 0.30
@@ -37,11 +37,11 @@ faults:
     plumbing: 0.20
     other: 0.05
   critical_devices: [lock, power, plumbing]   # 这些设备故障时,空净房转为停售
-  repair_mean_min: 120       # 修复时长均值(对数正态) [占位]
+  repair_mean_min: 120       # 修复时长均值(对数正态) [设定]
   repair_sigma: 0.8
   # 全店网络中断
-  hotel_net_outage_per_day: 0.02   # [占位]
-  hotel_net_outage_mean_min: 30    # [占位]
+  hotel_net_outage_per_day: 0.02   # [设定]
+  hotel_net_outage_mean_min: 30    # [设定]
 
 # ---------- 以下为实时系统(决策层与运营员)参数 ----------
 live:
@@ -49,26 +49,26 @@ live:
   warmup_days: 3             # 启动时先预热的天数,让集群进入正常经营状态
 
 operations:
-  n_operators: 2             # 远程运营员人数 [占位]
-  # 自动处置(远程重启、远程开锁等)的成功率,按设备类别 [占位]
+  n_operators: 2             # 远程运营员人数 [设定]
+  # 自动处置(远程重启、远程开锁等)的成功率,按设备类别 [设定]
   auto_success:   {lock: 0.5, power: 0.2, network: 0.7, hvac: 0.4, plumbing: 0.0, other: 0.2}
-  # 远程人工处置的成功率;不成功则升级为现场工单 [占位]
+  # 远程人工处置的成功率;不成功则升级为现场工单 [设定]
   remote_success: {lock: 0.6, power: 0.3, network: 0.6, hvac: 0.4, plumbing: 0.0, other: 0.3}
-  auto_minutes: 1            # 一次自动处置耗时(分钟) [占位]
-  remote_handle_mean_min: 5  # 远程人工处理时长均值,对数正态 [分布形式: Brown 等 2005;均值占位]
+  auto_minutes: 1            # 一次自动处置耗时(分钟) [设定]
+  remote_handle_mean_min: 5  # 远程人工处理时长均值,对数正态 [分布形式: Brown 等 2005;均值设定]
   remote_handle_sigma: 0.6
-  onsite_mean_min: 90        # 现场工单从派出到修复的时长均值,对数正态 [占位]
+  onsite_mean_min: 90        # 现场工单从派出到修复的时长均值,对数正态 [设定]
   onsite_sigma: 0.5
-  checkin_block_prob: 0.03   # 客人自助入住受阻的概率 [占位]
-  checkin_auto_success: 0.5  # 入住受阻时自动远程放行的成功率 [占位]
-  cleaning_overdue_min: 150  # 待清洁超过该时长视为超时 [占位]
+  checkin_block_prob: 0.03   # 客人自助入住受阻的概率 [设定]
+  checkin_auto_success: 0.5  # 入住受阻时自动远程放行的成功率 [设定]
+  cleaning_overdue_min: 150  # 待清洁超过该时长视为超时 [设定]
   # 事件优先级评分权重: P = w_s*严重程度 + w_g*对客影响 + w_u*紧迫度
   priority_weights: {severity: 0.4, guest: 0.4, urgency: 0.2}
-  # 响应时限(分钟),按优先级 [占位,待补出处]
+  # 响应时限(分钟),按优先级 [设定,待补出处]
   sla_response_min: {1: 5, 2: 12, 3: 30}
 
 # ---------- 客房环境与设备的连续量模型 ----------
-# 以下物理参数均为量级合理的占位值,写论文前应替换为文献值或实测值
+# 以下物理参数除标注出处者外,均为量级合理的设定值
 environment:
   sample_minutes: 5            # 遥测采样周期(分钟)
   outdoor_mean_c: 29.0         # 室外日均温(夏季工况)
@@ -111,7 +111,7 @@ detection:
   offline_minutes: 12.5        # 超过该时长没有收到数据,判为离线
   batt_low_pct: 15             # 门锁电量低于该值,生成预防性更换工单
 
-# ---------- 传统驻店管理模式(对照方案),全部为占位值 ----------
+# ---------- 传统驻店管理模式(对照方案),除标注出处者外为设定值 ----------
 traditional:
   frontdesk_per_hotel: 1         # 每店前台在岗人数(24 小时三班)
   engineer_hours_per_day: 8      # 每店工程人员每日工时

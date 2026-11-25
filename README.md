@@ -36,23 +36,31 @@ python server.py
 
 | 命令 | 作用 |
 | --- | --- |
-| `python run_stage1.py` | 阶段 1 的孪生模型验证(30 天),结果在 `output/` |
-| `python experiments.py` | 对比实验(本文方案与传统驻店模式)和负荷扫描,约 5 分钟,结果在 `output/experiments.json` |
+| `python run_stage1.py` | 孪生模型一致性验证(30 天),结果在 `output/` |
+| `python final_run.py` | 论文全部实验:对比、负荷扫描、敏感性分析,共 67 次运行,结果逐行写入 `output/final.jsonl` |
+| `python final_agg.py` | 汇总上一步结果,生成 `output/final_agg.json` |
+| `python det_table.py` | 分设备类别的检测性能(5 个种子) |
+| `python selftest_run.py` | 主动自检实验,结果在 `output/selftest.json` |
+| `python p23.py` | P2、P3 事件响应时限达标率核对 |
+| `python figs.py`、`python figs2.py` | 生成论文图 1 至图 6,保存在 `figs/` |
 | `python record_replay.py` | 录制一段数据,生成不需要后端也能播放的 `output/replay.html` |
 | `python -m pytest tests -q` | 8 项自动检验 |
 
+`experiments.py` 和 `supp.py` 是上述脚本调用的实验函数。Windows 下可直接双击 `start.bat` 启动驾驶舱。
+
 全部量化指标的定义、单位、模型方程和检测规则见 `INDICATORS.md`。
+
+## 论文结果文件
+
+`output/final_agg.json`、`output/selftest.json`、`output/summary.json` 是论文表格所用的汇总结果,`figs/` 是论文插图。随机种子固定,重新运行上述脚本可复现。
 
 ## 参数
 
-全部在 `config.yaml`。标注"文献"的有出处,标注"占位"的是暂定值:
-自动处置成功率、远程处置成功率、处理时长、响应时限、运营员人数等目前都是占位值,
-写论文前需要换成有出处的值或改为扫描区间。
+全部在 `config.yaml`。标注"文献"或"数据"的参数有公开出处(故障率:Lai 和 Yik 2012;入住率:华住集团 2025 年季度数据;退房清洁时长:Aguilar-Escobar 等 2021;CO2 产生率:Persily 和 de Jonge 2017;住宿晚数、每间人数、未到店率:Antonio 等 2019 数据集)。标注"设定"的参数没有公开出处,是本文的设定值,包括自动与远程处置成功率、处理时长、响应时限等,其影响由论文的敏感性分析检验。
 
-## 尚未包含
+## 范围说明
 
-- 真正放大客房数的管控幅度实验(目前用放大事件强度来等效)
-- 多名运营员协同时的管控幅度
-- 消息丢失、延迟、传感器误报(稳健性实验变量)
-- 现场工单的派发与接单(留给下一篇论文)
-- 用户登录、数据库持久化(演示原型不需要;接入真实门店时再加)
+- 全部数据由程序模拟,没有接入真实酒店设备,结论限于仿真条件。
+- 没有模拟消息丢失、传输延迟和传感器失效。
+- 现场工单只按服从给定分布的时长处理,派发与接单机制不在本文范围内。
+- 演示原型没有用户登录和数据库持久化。
