@@ -1,0 +1,127 @@
+# 虚拟无人酒店集群参数(阶段 1)
+# 标注 [文献] 的参数有出处;标注 [占位] 的参数是暂定值,阶段 3 冻结前需要替换或改为扫描区间。
+
+seed: 20261125          # 随机种子,保证结果可重复
+days: 30                # 仿真天数
+snapshot_minutes: 60    # 孪生状态快照间隔(分钟)
+
+cluster:
+  n_hotels: 10          # 酒店数量 [占位]
+  rooms_per_hotel: 40   # 每店客房数 [占位]
+
+demand:
+  booking_prob: 0.61        # 校准到夜间入住率约 81% [文献: 华住 2025 年三、四季度入住率 84.1% / 78.4%]
+  los_pmf: [0.200, 0.239, 0.259, 0.168, 0.070, 0.024, 0.027, 0.013]   # 住宿 1..8 晚的经验分布,均值 2.94 晚 [数据: Antonio 等 2019,城市酒店已离店订单]
+  guests_pmf: [0.222, 0.649, 0.129]   # 每间 1/2/3 人 [数据: 同上]
+  no_show_prob: 0.019        # 预订后未到店的概率 [占位]
+  los_mean_nights: 1.8      # 平均住宿晚数 [占位,可改用 Antonio 等 2019 数据集抽样]
+  los_max_nights: 7
+  checkin_hour: [12.0, 15.0, 23.5]   # 到店钟点的三角分布(最早, 高峰, 最晚) [占位,行业经验]
+  checkout_hour: [6.5, 11.0, 12.0]   # 退房钟点的三角分布 [占位,行业经验]
+
+cleaning:
+  start_delay_mean_min: 60   # 退房到开始清洁的平均等待(对数正态) [占位]
+  start_delay_sigma: 0.6
+  duration_mean_min: 20.4    # 退房清洁时长均值 [文献: Aguilar-Escobar 等 2021,退房房 20.35 分钟]
+  duration_sd_min: 5.0       # [文献: 同上,总体标准差 5.02 分钟]
+
+faults:
+  # 客房相关维修事件:23.6 单/间/年 = 0.0647 单/间/天 [文献: Lai & Yik 2012, IJHM 31(1)]
+  rate_per_room_day: 0.0647
+  # 各设备类别占比 [占位:原文表 1 有工种比例,读取后替换]
+  device_shares:
+    lock: 0.15
+    power: 0.30
+    network: 0.15
+    hvac: 0.15
+    plumbing: 0.20
+    other: 0.05
+  critical_devices: [lock, power, plumbing]   # 这些设备故障时,空净房转为停售
+  repair_mean_min: 120       # 修复时长均值(对数正态) [占位]
+  repair_sigma: 0.8
+  # 全店网络中断
+  hotel_net_outage_per_day: 0.02   # [占位]
+  hotel_net_outage_mean_min: 30    # [占位]
+
+# ---------- 以下为实时系统(决策层与运营员)参数 ----------
+live:
+  speed_min_per_sec: 10      # 仿真速度:现实 1 秒 = 仿真多少分钟(界面上可调)
+  warmup_days: 3             # 启动时先预热的天数,让集群进入正常经营状态
+
+operations:
+  n_operators: 2             # 远程运营员人数 [占位]
+  # 自动处置(远程重启、远程开锁等)的成功率,按设备类别 [占位]
+  auto_success:   {lock: 0.5, power: 0.2, network: 0.7, hvac: 0.4, plumbing: 0.0, other: 0.2}
+  # 远程人工处置的成功率;不成功则升级为现场工单 [占位]
+  remote_success: {lock: 0.6, power: 0.3, network: 0.6, hvac: 0.4, plumbing: 0.0, other: 0.3}
+  auto_minutes: 1            # 一次自动处置耗时(分钟) [占位]
+  remote_handle_mean_min: 5  # 远程人工处理时长均值,对数正态 [分布形式: Brown 等 2005;均值占位]
+  remote_handle_sigma: 0.6
+  onsite_mean_min: 90        # 现场工单从派出到修复的时长均值,对数正态 [占位]
+  onsite_sigma: 0.5
+  checkin_block_prob: 0.03   # 客人自助入住受阻的概率 [占位]
+  checkin_auto_success: 0.5  # 入住受阻时自动远程放行的成功率 [占位]
+  cleaning_overdue_min: 150  # 待清洁超过该时长视为超时 [占位]
+  # 事件优先级评分权重: P = w_s*严重程度 + w_g*对客影响 + w_u*紧迫度
+  priority_weights: {severity: 0.4, guest: 0.4, urgency: 0.2}
+  # 响应时限(分钟),按优先级 [占位,待补出处]
+  sla_response_min: {1: 5, 2: 12, 3: 30}
+
+# ---------- 客房环境与设备的连续量模型 ----------
+# 以下物理参数均为量级合理的占位值,写论文前应替换为文献值或实测值
+environment:
+  sample_minutes: 5            # 遥测采样周期(分钟)
+  outdoor_mean_c: 29.0         # 室外日均温(夏季工况)
+  outdoor_amp_c: 5.0           # 室外温度日振幅
+  outdoor_hotel_sd_c: 1.0      # 各店室外温度差异
+  thermal_tau_min: 180         # 客房围护结构热时间常数
+  hvac_gain_per_min: 0.05      # 空调比例控制增益
+  hvac_qmax_c_per_min: 0.12    # 空调最大降温速率
+  hvac_power_w: 900            # 空调满负荷功率
+  precool_setpoint_c: 26.0     # 已预订客房的预冷设定温度
+  occupant_heat_c_per_min: 0.004   # 每位在房人员带来的升温
+  standby_w: 8                 # 客房待机功率(门锁、网关、传感器)
+  cleaning_power_w: 600        # 清洁设备功率
+  shower_lpm: 8.0              # 淋浴流量(升/分钟)
+  cleaning_lpm: 3.0            # 清洁用水流量
+  leak_lpm: 1.2                # 给排水故障时的漏水流量
+  co2_outdoor_ppm: 420
+  co2_gen_ppm_per_min: 4.44    # 0.0040 L/s·人 [Persily & de Jonge 2017] 折算到 54 m3 客房
+  vent_rate_per_min: 0.02      # 正常通风换气率
+  vent_rate_fault_per_min: 0.006   # 空调新风失效时的换气率
+  batt_init_min: 12            # 门锁初始电量下限(%)
+  batt_drain_occ: 0.004        # 在住时每个采样周期的耗电(%)
+  batt_drain_vac: 0.0015       # 空置时每个采样周期的耗电(%)
+  sensor_noise:                # 传感器测量噪声(标准差)
+    temp: 0.2                  # 摄氏度
+    rh: 1.5                    # 相对湿度百分点
+    co2: 15                    # ppm
+    power_rel: 0.02            # 功率的相对误差
+    flow: 0.05                 # 升/分钟
+
+# ---------- 基于遥测数据的检测规则 ----------
+detection:
+  power_zero_w: 1.0            # 功率低于该值判为断电(正常待机约 8 瓦)
+  hvac_dev_c: 2.0              # 室温高于设定值超过该幅度,且没有回落趋势
+  hvac_persist_samples: 4      # 需连续满足的采样次数(4 次 = 20 分钟)
+  co2_high_ppm: 1500           # CO2 持续偏高,作为通风失效的佐证
+  co2_persist_samples: 3
+  flow_min_lpm: 0.5            # 持续水流判据
+  flow_persist_samples: 6      # 连续 6 次 = 30 分钟
+  offline_minutes: 12.5        # 超过该时长没有收到数据,判为离线
+  batt_low_pct: 15             # 门锁电量低于该值,生成预防性更换工单
+
+# ---------- 传统驻店管理模式(对照方案),全部为占位值 ----------
+traditional:
+  frontdesk_per_hotel: 1         # 每店前台在岗人数(24 小时三班)
+  engineer_hours_per_day: 8      # 每店工程人员每日工时
+  checkin_service_mean_min: 4    # 前台办理一次入住的时长均值
+  # 在房客人发现各类故障所需的平均时间(分钟)
+  guest_notice_mean_min: {lock: 30, power: 5, network: 20, hvac: 45, plumbing: 40, other: 90}
+  cleaner_find_prob: 0.8         # 清洁人员在清洁时发现故障的概率(每 5 分钟)
+  patrol_interval_min: 480       # 店员巡查间隔
+  patrol_find_prob: {lock: 0.9, power: 0.9, network: 0.3, hvac: 0.5, plumbing: 0.9, other: 0.5}
+  staff_handle_mean_min: 10      # 店员到场查看并尝试处理的时长
+  staff_fix_prob: {lock: 0.6, power: 0.3, network: 0.6, hvac: 0.4, plumbing: 0.0, other: 0.3}
+  engineer_mean_min: 60          # 工程人员修复时长(白天)
+  engineer_night_factor: 2.0     # 夜间无工程人员在岗时的时长倍数

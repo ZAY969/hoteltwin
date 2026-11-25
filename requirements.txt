@@ -1,0 +1,9 @@
+simpy
+pyyaml
+pandas
+numpy
+scipy
+fastapi
+uvicorn[standard]
+matplotlib
+pytest
