@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>无人酒店集群数字孪生 · 运营驾驶舱</title>
+<style>
+:root{
+  --bg:#0d1218; --panel:#151c25; --panel2:#1b2430; --line:#263241; --text:#e6edf5; --dim:#8b9bb0;
+  --occ:#3d8bfd; --res:#e0a83a; --vc:#2fa36b; --vd:#d9603b; --cl:#9a6bd8; --ooo:#5c6878;
+  --p1:#ef5350; --p2:#e0a83a; --p3:#6f8196; --good:#2fa36b; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 -apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+h1{font-size:17px;margin:0;font-weight:600;letter-spacing:.02em}
+.clock{font-family:var(--mono);font-size:15px;background:var(--panel2);padding:4px 10px;border-radius:6px;font-variant-numeric:tabular-nums}
+.conn{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--p3)}
+.dot.live{background:var(--good);animation:pulse 1.6s infinite}
+.dot.off{background:var(--p1)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,163,107,.6)}70%{box-shadow:0 0 0 7px rgba(47,163,107,0)}100%{box-shadow:0 0 0 0 rgba(47,163,107,0)}}
+.spacer{flex:1}
+.ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctl label{color:var(--dim);font-size:13px}
+select,button{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer}
+button:hover,select:hover{border-color:#3b4b5f}
+main{padding:16px 20px;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px}
+.kpiwrap{grid-column:1/-1;display:flex;flex-direction:column;gap:10px}
+.kpihead{color:var(--dim);font-size:12px;letter-spacing:.08em;margin:2px 2px -4px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;min-width:0}
+.kpi .lab{color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .val{font-size:23px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:1px;white-space:nowrap}
+.kpi .val small{font-size:12.5px;color:var(--dim);font-weight:400;margin-left:4px}
+.kpi .sub{color:var(--dim);font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;min-width:22px;text-align:center;padding:0 6px;border-radius:10px;font-size:12px;font-weight:600;color:#0d1218}
+.pill.p1{background:var(--p1)}.pill.p2{background:var(--p2)}.pill.p3{background:var(--p3)}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-width:0}
+.panel h2{font-size:13px;font-weight:600;margin:0;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--dim);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hotels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;padding:14px}
+.hotel{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;min-width:0}
+.hotel.netdown{border-color:var(--p1)}
+.hotel .hd{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}
+.hotel .hd b{font-weight:600}
+.hotel .net{font-size:11px;color:var(--p1);font-weight:600}
+.hotel .nums{color:var(--dim);font-size:11.5px;margin:2px 0 8px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:3px}
+.cell{aspect-ratio:1;border-radius:3px;position:relative;cursor:pointer;transition:background .4s}
+.cell.fault::after{content:"";position:absolute;inset:-2px;border:2px solid var(--p1);border-radius:4px}
+.cell.blocked::after{content:"";position:absolute;inset:-2px;border:2px solid #fff;border-radius:4px;animation:blink .8s infinite}
+.cell.sel{outline:2px solid #fff;outline-offset:1px;z-index:1}
+.cell.chg{animation:flash .9s}
+@keyframes blink{50%{opacity:.15}}
+@keyframes flash{0%{transform:scale(1.35);filter:brightness(1.8)}100%{transform:scale(1);filter:none}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;padding:0 14px 12px;color:var(--dim);font-size:12px;align-items:center}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.legend .ramp{display:inline-block;width:120px;height:10px;border-radius:2px;margin:0 6px;vertical-align:-1px}
+.trends{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.trend{padding:10px 14px;border-right:1px solid var(--line);min-width:0}
+.trend:last-child{border-right:0}
+.trend .lab{color:var(--dim);font-size:12px;display:flex;justify-content:space-between;gap:6px}
+.trend .lab b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+svg.spark{display:block;width:100%;height:46px;margin-top:4px}
+.room h2 .chip{font-size:12px;padding:1px 8px;border-radius:4px;color:#0d1218;font-weight:600}
+.rvals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.rv{background:var(--panel);padding:8px 12px;min-width:0}
+.rv .lab{color:var(--dim);font-size:11.5px;white-space:nowrap}
+.rv .v{font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rv .v small{font-size:11.5px;color:var(--dim);font-weight:400;margin-left:3px}
+.rv .v.warn{color:var(--p1)}
+.rsparks{display:grid;grid-template-columns:1fr 1fr}
+.rsparks .trend{border-bottom:1px solid var(--line)}
+.rsparks .trend:nth-child(2n){border-right:0}
+.devs{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px}
+.dev{font-size:12px;padding:2px 8px;border-radius:4px;border:1px solid var(--line);color:var(--dim)}
+.dev.bad{color:#fff;background:var(--p1);border-color:var(--p1)}
+.dev button{all:unset;cursor:pointer;margin-left:6px;color:var(--p2);font-size:11.5px}
+.events{max-height:560px;overflow-y:auto}
+.ev{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 8px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:13px;align-items:center;cursor:pointer}
+.ev.new{animation:slide .5s}
+@keyframes slide{from{background:#243245}to{background:transparent}}
+.ev .where,.ev .evd{color:var(--dim);font-size:12px;grid-column:2}
+.ev .evd{grid-column:2/4;font-variant-numeric:tabular-nums}
+.ev .st{font-size:12px;padding:1px 7px;border-radius:4px;background:var(--panel2);border:1px solid var(--line);white-space:nowrap}
+.ev .st.done{color:var(--good);border-color:transparent;background:transparent}
+.ev .st.on{color:var(--p2)}
+.ev .tm{color:var(--dim);font-size:12px;grid-column:3;text-align:right;font-variant-numeric:tabular-nums}
+.tag{font-size:11px;padding:0 5px;border-radius:3px;border:1px solid var(--p1);color:var(--p1);margin-left:4px}
+.bars{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:8px;align-items:center;font-size:12px;color:var(--dim)}
+.bar div{height:8px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.bar div i{display:block;height:100%;background:var(--occ);border-radius:4px;transition:width .5s}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+.note{color:var(--dim);font-size:12px;padding:0 14px 12px}
+.empty{color:var(--dim);padding:16px 14px;font-size:13px}
+@media (max-width:1180px){main{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.hotels{grid-template-columns:repeat(2,minmax(0,1fr))}.trends{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>无人酒店集群数字孪生 · 运营驾驶舱</h1>
+  <span class="clock" id="clock">第 1 天 00:00</span>
+  <span class="conn"><i class="dot" id="dot"></i><span id="connText">连接中</span></span>
+  <span class="conn" id="outdoor"></span>
+  <span class="spacer"></span>
+  <span class="ctl">
+    <label for="colorBy">客房着色</label>
+    <select id="colorBy">
+      <option value="state">房态</option><option value="temp">室温</option><option value="power">功率</option>
+      <option value="co2">CO2 浓度</option><option value="batt">门锁电量</option>
+    </select>
+    <span id="controls" class="ctl">
+      <label for="speed">速度</label>
+      <select id="speed">
+        <option value="1">1 分钟/秒</option><option value="5">5 分钟/秒</option>
+        <option value="10" selected>10 分钟/秒</option><option value="30">30 分钟/秒</option><option value="60">60 分钟/秒</option>
+      </select>
+      <button id="pause">暂停</button>
+      <button id="inject">随机注入故障</button>
+    </span>
+  </span>
+</header>
+<main>
+  <section class="kpiwrap">
+    <div class="kpihead">运营管控</div><div class="kpis" id="kpiOps"></div>
+    <div class="kpihead">量化指标</div><div class="kpis" id="kpiQ"></div>
+  </section>
+  <div class="col">
+    <section class="panel">
+      <h2><span>集群孪生 · 400 间客房</span><span id="msgs"></span></h2>
+      <div class="hotels" id="hotels"></div>
+      <div class="legend" id="legend"></div>
+      <div class="note">点击任意客房,在右侧查看它的全部量化数据。红框表示孪生推断该房有设备故障,白色闪烁框表示客人入住受阻。</div>
+    </section>
+    <section class="panel">
+      <h2><span>集群走势(最近 180 帧)</span></h2>
+      <div class="trends" id="trends"></div>
+    </section>
+    <section class="panel">
+      <h2><span>近 24 小时处置层级</span></h2>
+      <div class="bars" id="levels"></div>
+    </section>
+  </div>
+  <aside class="col">
+    <section class="panel room" id="roomPanel"></section>
+    <section class="panel">
+      <h2><span>事件流</span><span id="evCount"></span></h2>
+      <div class="events" id="events"><div class="empty">等待事件……</div></div>
+    </section>
+  </aside>
+</main>
+<script>
+const STATE_NAME=["空净","已预订","在住","待清洁","清洁中","停售"];
+const STATE_COLOR=["#2fa36b","#e0a83a","#3d8bfd","#d9603b","#9a6bd8","#5c6878"];
+const DEV_NAME={lock:"门锁",power:"供电",network:"网络",hvac:"空调",plumbing:"给排水",other:"其他"};
+const $=id=>document.getElementById(id);
+const replay=!!(window.REPLAY_FRAMES||window.REPLAY_URL);
+let cfg=null,cells=[],rooms=[],tel=[],events=new Map(),ws=null,sel=0,colorBy="state",lastKpi=null,lastT=0;
+let hist={power:[],occ:[],flow:[],open:[]},rhist=[];
+const HMAX=180;
+
+const clock=t=>{const d=Math.floor(t/1440)+1,m=Math.floor(t%1440);return `第 ${d} 天 ${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`};
+const pct=(x,d=0)=>x==null?"—":(x*100).toFixed(d)+"%";
+const num=(x,d=0)=>x==null?"—":Number(x).toLocaleString("zh-CN",{minimumFractionDigits:d,maximumFractionDigits:d});
+const mins=x=>x==null?"—":(x<10?x.toFixed(1):Math.round(x));
+const lerp=(v,a,b)=>Math.max(0,Math.min(1,(v-a)/(b-a)));
+const SCALES={
+  temp:{get:r=>r[0]/10,lo:22,hi:32,unit:"°C",col:x=>`hsl(${210-210*x} 70% ${48+6*x}%)`},
+  power:{get:r=>r[3],lo:0,hi:1200,unit:"W",col:x=>`hsl(${205-175*x} 75% ${22+34*x}%)`},
+  co2:{get:r=>r[2],lo:400,hi:1600,unit:"ppm",col:x=>`hsl(${150-150*x} 60% ${40+8*x}%)`},
+  batt:{get:r=>r[5],lo:0,hi:100,unit:"%",col:x=>`hsl(${130*x} 65% 44%)`},
+};
+function cellColor(idx){
+  if(colorBy==="state") return STATE_COLOR[rooms[idx][0]];
+  const r=tel[idx]; if(!r) return "#333"; if(r[8]>12) return "#39424e";
+  const s=SCALES[colorBy]; return s.col(lerp(s.get(r),s.lo,s.hi));
+}
+function build(c){
+  cfg=c; cells=[]; rooms=[]; rhist=[]; const box=$("hotels"); box.innerHTML="";
+  for(let h=0;h<c.n_hotels;h++){
+    const el=document.createElement("div"); el.className="hotel"; el.id="hotel"+h;
+    el.innerHTML=`<div class="hd"><b>门店 ${String(h+1).padStart(2,"0")}</b><span class="net" hidden>断网</span></div><div class="nums"></div><div class="grid"></div>`;
+    const g=el.querySelector(".grid");
+    for(let r=0;r<c.k;r++){
+      const cell=document.createElement("div"); cell.className="cell"; cell.dataset.i=h*c.k+r;
+      g.appendChild(cell); cells.push(cell); rooms.push([0,0,0]); rhist.push({T:[],S:[],P:[],C:[],F:[]});
+    }
+    box.appendChild(el);
+  }
+  paintLegend();
+}
+function paintLegend(){
+  if(colorBy==="state"){
+    $("legend").innerHTML=STATE_NAME.map((n,i)=>`<span><i style="background:${STATE_COLOR[[2,1,0,3,4,5][i]]}"></i>${STATE_NAME[[2,1,0,3,4,5][i]]}</span>`).join("")+
+      `<span><i style="border:2px solid var(--p1)"></i>设备故障</span><span><i style="border:2px solid #fff"></i>入住受阻</span>`;
+  }else{
+    const s=SCALES[colorBy], stops=[0,.25,.5,.75,1].map(x=>s.col(x)).join(",");
+    $("legend").innerHTML=`<span>${s.lo} ${s.unit}<span class="ramp" style="background:linear-gradient(90deg,${stops})"></span>${s.hi} ${s.unit}</span><span><i style="background:#39424e"></i>无数据</span>`;
+  }
+}
+function paintCell(idx,flash){
+  const c=cells[idx]; if(!c) return; const [st,mask,blocked]=rooms[idx];
+  c.className="cell"+(blocked?" blocked":mask?" fault":"")+(idx===sel?" sel":"")+(flash?" chg":"");
+  c.style.background=cellColor(idx);
+}
+function paintHotels(nets){
+  for(let h=0;h<cfg.n_hotels;h++){
+    const el=$("hotel"+h); let occ=0,p=0,ts=0,tn=0;
+    for(let r=0;r<cfg.k;r++){const i=h*cfg.k+r; if(rooms[i][0]===2){occ++; if(tel[i]){ts+=tel[i][0]/10;tn++}} if(tel[i]&&tel[i][8]<=12) p+=tel[i][3]}
+    el.querySelector(".nums").textContent=`在住 ${occ}/${cfg.k} · ${(p/1000).toFixed(1)} kW`+(tn?` · ${(ts/tn).toFixed(1)}°C`:"");
+    const down=nets&&!nets[h]; el.classList.toggle("netdown",!!down); el.querySelector(".net").hidden=!down;
+  }
+}
+function spark(arr,color,ref){
+  if(!arr.length) return `<svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none"></svg>`;
+  let lo=Math.min(...arr),hi=Math.max(...arr); if(ref){const rr=ref.filter(v=>v>0); if(rr.length){lo=Math.min(lo,...rr);hi=Math.max(hi,...rr)}}
+  if(hi-lo<1e-9){hi+=1;lo-=1} const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const n=arr.length, x=i=>(n>1?i/(n-1):0)*200, y=v=>38-(v-lo)/(hi-lo)*36;
+  const line=a=>a.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  let extra=""; if(ref){const seg=ref.map((v,i)=>v>0?`${x(i).toFixed(1)},${y(v).toFixed(1)}`:null).filter(Boolean).join(" "); if(seg) extra=`<polyline points="${seg}" fill="none" stroke="#8b9bb0" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>`}
+  return `<svg class="spark" viewBox="0 0 200 40" preserveAspectRatio="none">${extra}<polyline points="${line(arr)}" fill="none" stroke="${color}" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>`;
+}
+const trend=(lab,val,arr,color,ref)=>`<div class="trend"><div class="lab"><span>${lab}</span><b>${val}</b></div>${spark(arr,color,ref)}</div>`;
+const tile=(lab,val,sub)=>`<div class="kpi"><div class="lab">${lab}</div><div class="val">${val}</div><div class="sub">${sub||"&nbsp;"}</div></div>`;
+function paintKpi(k){
+  lastKpi=k; const open=k.open,total=open[0]+open[1]+open[2],lv=k.levels,lvSum=lv["自动"]+lv["远程"]+lv["现场"];
+  $("kpiOps").innerHTML=
+    tile("当前在住率",pct(k.occ),`在住 ${k.guests} 人 · 可售 ${k.sellable} 间 · 停售 ${k.ooo} 间`)+
+    tile("未关闭事件",total,`<span class="pill p1">${open[0]}</span> 紧急 <span class="pill p2">${open[1]}</span> 重要 <span class="pill p3">${open[2]}</span> 一般`)+
+    tile("远程运营员",`${k.busy_ops}<small>/ ${k.n_ops} 忙碌</small>`,`排队 ${k.queue} 件 · 24 小时利用率 ${pct(k.util,1)}`)+
+    tile("响应达标率(紧急)",pct(k.sla[0]),`重要 ${pct(k.sla[1])} · 一般 ${pct(k.sla[2])}`)+
+    tile("平均闭环时间",`${mins(k.close_avg)}<small>分钟</small>`,`24 小时识别 ${k.events_24h} 件 · 关闭 ${k.closed_24h} 件`)+
+    tile("自动处置占比",lvSum?pct(lv["自动"]/lvSum):"—",`现场工单进行中 ${k.onsite_open} 件`);
+  $("kpiQ").innerHTML=
+    tile("集群实时功率",`${num(k.power_kw,1)}<small>kW</small>`,`今日 ${num(k.energy_today,0)} kWh · 房均 ${num(k.energy_per_occ,2)} kWh`)+
+    tile("集群实时用水",`${num(k.flow_lpm,0)}<small>升/分钟</small>`,`今日 ${num(k.water_today,1)} m³ · 房均 ${num(k.water_per_occ,0)} 升`)+
+    tile("舒适达标率",pct(k.comfort,1),`均温 ${num(k.temp_occ,1)}°C · CO2 ${num(k.co2_occ)} ppm`)+
+    tile("平均房价",`${num(k.adr)}<small>元</small>`,`RevPAR ${num(k.revpar)} 元 · 周转 ${num(k.turnaround)} 分钟`)+
+    tile("平均检测时延 *",`${mins(k.det_delay)}<small>分钟</small>`,`误报 ${k.false_alarms} 件 · 潜伏故障 ${k.latent} 处`)+
+    tile("孪生保真度 *",`${num(k.rmse_t,2)}<small>°C 室温误差</small>`,`功率 ±${num(k.rmse_p,1)} W · 电量 ${pct(k.energy_err,2)} · 在线 ${pct(k.online,0)}`);
+  $("levels").innerHTML=["自动","远程","现场"].map(n=>`<div class="bar"><span>${n}</span><div><i style="width:${lvSum?lv[n]/lvSum*100:0}%"></i></div><span>${lv[n]}</span></div>`).join("")+
+    `<div style="color:var(--dim);font-size:12px">带 * 的两项是对照模拟真值算出的评估指标,接入真实门店后无法直接得到。</div>`;
+  $("msgs").textContent=`状态消息 ${k.msgs.toLocaleString()} 条 · 传感器读数 ${k.readings.toLocaleString()} 个`;
+  $("outdoor").textContent=`室外 ${num(k.t_out,1)}°C`;
+  const push=(a,v)=>{a.push(v); if(a.length>HMAX) a.shift()};
+  push(hist.power,k.power_kw); push(hist.occ,k.occ*100); push(hist.flow,k.flow_lpm); push(hist.open,total);
+  $("trends").innerHTML=trend("总功率",num(k.power_kw,1)+" kW",hist.power,"#e0a83a")+trend("在住率",pct(k.occ),hist.occ,"#3d8bfd")+
+    trend("总水流量",num(k.flow_lpm,0)+" 升/分",hist.flow,"#4fc3c8")+trend("未关闭事件",total,hist.open,"#ef5350");
+}
+function paintRoom(){
+  if(!cfg||!tel[sel]) return; const r=tel[sel],[st,mask,blocked]=rooms[sel],h=Math.floor(sel/cfg.k),rn=sel%cfg.k,hh=rhist[sel];
+  const stale=r[8]>12, T=r[0]/10, sp=r[7]/10, dev=sp>0?T-sp:null;
+  const rv=(lab,v,unit,warn)=>`<div class="rv"><div class="lab">${lab}</div><div class="v${warn?" warn":""}">${v}<small>${unit||""}</small></div></div>`;
+  $("roomPanel").innerHTML=`<h2><span>客房孪生 · 门店 ${h+1} · ${rn+1} 号房</span><span class="chip" style="background:${STATE_COLOR[st]}">${STATE_NAME[st]}${blocked?" · 入住受阻":""}</span></h2>
+  <div class="rvals">
+    ${rv("室温",T.toFixed(1),"°C",dev!=null&&dev>2)}${rv("设定温度",sp>0?sp.toFixed(1):"关","°C".repeat(sp>0?1:0))}${rv("相对湿度",r[1],"%")}
+    ${rv("CO2 浓度",r[2],"ppm",r[2]>1500)}${rv("实时功率",r[3],"W",r[3]<1)}${rv("今日电量",(r[9]/100).toFixed(2),"kWh")}
+    ${rv("水流量",(r[4]/10).toFixed(1),"升/分")}${rv("今日用水",r[10],"升")}${rv("门锁电量",r[5],"%",r[5]<15)}
+    ${rv("网络时延",stale?"—":r[6],"ms")}${rv("数据龄",r[8]>=999?"—":r[8],"分钟",stale)}${rv("在住人数 / 房价",st===2?`${r[11]} 人 / ${r[12]}`:"—",st===2?"元":"")}
+  </div>
+  <div class="rsparks">${trend("室温与设定(虚线)",T.toFixed(1)+"°C",hh.T,"#ef8354",hh.S)}${trend("功率",r[3]+" W",hh.P,"#e0a83a")}${trend("CO2",r[2]+" ppm",hh.C,"#2fa36b")}${trend("水流量",(r[4]/10).toFixed(1)+" 升/分",hh.F,"#4fc3c8")}</div>
+  <div class="devs">${cfg.devices.map((d,i)=>`<span class="dev${mask&(1<<i)?" bad":""}">${DEV_NAME[d]}${mask&(1<<i)?" 异常":" 正常"}${replay?"":`<button data-dev="${d}" title="为该设备注入一次故障">注入</button>`}</span>`).join("")}</div>
+  <div class="note">设备状态是孪生根据读数推断的结果,不是设备自己上报的。${replay?"":"点“注入”可制造一次故障,观察读数变化和识别过程。"}</div>`;
+}
+function evRow(e,isNew){
+  const where=e.r==null?`门店 ${e.h+1}`:`门店 ${e.h+1} · ${e.r+1} 号房`, done=e.status==="已关闭";
+  const st=done?`<span class="st done">已关闭${e.level?" · "+e.level:""}</span>`:`<span class="st on">${e.status}</span>`;
+  const tm=done&&e.tc!=null?`闭环 ${mins(e.tc)} 分钟`:(e.tr!=null?`响应 ${mins(e.tr)} 分钟`:"");
+  const evd=[e.ev,e.dd!=null?`检测时延 ${mins(e.dd)} 分钟 *`:""].filter(Boolean).join(" · ");
+  return `<div class="ev${isNew?" new":""}" data-i="${e.r==null?-1:e.h*cfg.k+e.r}"><span class="pill p${e.p}">P${e.p}</span><span>${e.label}<span style="color:var(--dim);font-size:12px"> · ${e.rule}</span>${e.fa?'<span class="tag">误报 *</span>':""}</span>${st}<span class="where">${where} · ${clock(e.t)}</span><span class="tm">${tm}</span>${evd?`<span class="evd">${evd}</span>`:""}</div>`;
+}
+function paintEvents(fresh){
+  const list=[...events.values()].sort((a,b)=>b.id-a.id).slice(0,60);
+  $("events").innerHTML=list.length?list.map(e=>evRow(e,fresh&&fresh.has(e.id))).join(""):'<div class="empty">等待事件……</div>';
+  $("evCount").textContent=`最近 ${list.length} 条`;
+}
+function apply(f){
+  if(f.type==="init"){build(f.cfg); events=new Map(); hist={power:[],occ:[],flow:[],open:[]}; if(!replay) $("speed").value=String(f.speed);
+    f.rooms.forEach(r=>{rooms[r[0]]=[r[1],r[2],r[3]]}); f.events.forEach(e=>events.set(e.id,e)); paintEvents(null)}
+  const changed=new Set();
+  if(f.type==="tick"){const flash=f.rooms.length<cfg.n_hotels*cfg.k; f.rooms.forEach(r=>{rooms[r[0]]=[r[1],r[2],r[3]]; if(flash) changed.add(r[0])});
+    if(f.events.length){const fresh=new Set(); f.events.forEach(e=>{if(!events.has(e.id)) fresh.add(e.id); events.set(e.id,e)});
+      if(events.size>300){[...events.keys()].sort((a,b)=>a-b).slice(0,events.size-300).forEach(k=>events.delete(k))} paintEvents(fresh)}}
+  tel=f.tel; const newSample=f.t!==lastT; lastT=f.t;
+  for(let i=0;i<tel.length;i++){
+    if(newSample){const h=rhist[i],r=tel[i],ok=r[8]<=12; const p=(a,v)=>{a.push(v); if(a.length>HMAX) a.shift()};
+      p(h.T,r[0]/10); p(h.S,r[7]/10); p(h.P,ok?r[3]:0); p(h.C,r[2]); p(h.F,r[4]/10)}
+    paintCell(i,changed.has(i));
+  }
+  paintHotels(f.nets); paintKpi(f.kpi); paintRoom(); $("clock").textContent=clock(f.t);
+  if(!replay) $("pause").textContent=f.paused?"继续":"暂停";
+}
+function setConn(cls,text){$("dot").className="dot "+cls; $("connText").textContent=text}
+function send(o){if(ws&&ws.readyState===1) ws.send(JSON.stringify(o))}
+function select(i){if(i<0||!cfg) return; const old=sel; sel=i; paintCell(old,false); paintCell(sel,false); paintRoom()}
+
+$("hotels").onclick=e=>{const c=e.target.closest(".cell"); if(c) select(+c.dataset.i)};
+$("events").onclick=e=>{const r=e.target.closest(".ev"); if(r) select(+r.dataset.i)};
+$("colorBy").onchange=e=>{colorBy=e.target.value; paintLegend(); for(let i=0;i<cells.length;i++) paintCell(i,false)};
+
+function startReplay(frames){
+  setConn("live","回放演示(预先录制的后端数据)"); $("controls").hidden=true; let i=0;
+  const step=()=>{apply(frames[i]); i=(i+1)%frames.length}; step(); setInterval(step,1000);
+}
+if(window.REPLAY_FRAMES) startReplay(window.REPLAY_FRAMES);
+else if(window.REPLAY_URL){setConn("","正在载入回放数据"); fetch(window.REPLAY_URL).then(r=>r.json()).then(startReplay).catch(()=>setConn("off","回放数据载入失败"))}
+else{
+  const connect=()=>{
+    ws=new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/ws");
+    ws.onopen=()=>setConn("live","实时");
+    ws.onmessage=m=>apply(JSON.parse(m.data));
+    ws.onclose=()=>{setConn("off","连接断开,正在重连"); setTimeout(connect,2000)};
+  };
+  connect();
+  $("speed").onchange=e=>send({speed:+e.target.value});
+  $("pause").onclick=()=>send({paused:$("pause").textContent==="暂停"});
+  $("inject").onclick=()=>{if(!cfg) return; const d=cfg.devices,h=Math.floor(Math.random()*cfg.n_hotels),r=Math.floor(Math.random()*cfg.k);
+    send({inject:{h,r,device:d[Math.floor(Math.random()*d.length)]}}); select(h*cfg.k+r)};
+  $("roomPanel").onpointerdown=e=>{const b=e.target.closest("button[data-dev]"); if(b) send({inject:{h:Math.floor(sel/cfg.k),r:sel%cfg.k,device:b.dataset.dev}})};
+}
+</script>
+</body>
+</html>
